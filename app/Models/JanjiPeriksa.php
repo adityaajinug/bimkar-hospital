@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Periksa extends Model
+class JanjiPeriksa extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_janji_periksa', 'tgl_periksa', 'catatan', 'biaya_periksa'
+      'id_pasien', 'id_jadwal_periksa', 'keluhan', 'no_antrian'  
     ];
 }
