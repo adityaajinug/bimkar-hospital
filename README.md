@@ -18,9 +18,9 @@
 ## Instalation Guide
 #### Clone repository
 ````bash
-git clone https://github.com/adityaajinug/poliklinik-web
+git clone https://github.com/adityaajinug/bimkar-hospital
 
-cd poliklinik-web
+cd bimkar-hospital
 ````
 #### Install Dependencies
 ````bash
