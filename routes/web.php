@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\JadwalPeriksaController;
+use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PeriksaController;
 use App\Http\Controllers\ProfileController;
+use App\Models\JadwalPeriksa;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -73,6 +76,29 @@ Route::middleware('auth', 'role:dokter')->group(function () {
                 return view('dashboard');
             })->name('index'); 
         });
+    Route::controller(JadwalPeriksaController::class)
+        ->as('jadwal-periksa.')
+        ->prefix('jadwal-periksa')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store'); 
+            Route::get('/edit/{id}', 'edit')->name('edit'); 
+            Route::patch('/update/{id}', 'update')->name('update'); 
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy'); 
+        }); 
+
+    Route::controller(ObatController::class)
+        ->as('obat.')
+        ->prefix('obat')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store'); 
+            Route::get('/edit/{id}', 'edit')->name('edit'); 
+            Route::put('/update/{id}', 'update')->name('update'); 
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy'); 
+        });    
 });
 
 Route::middleware('auth', 'role:pasien')->group(function () {

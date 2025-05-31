@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalPeriksa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class JadwalPeriksaController extends Controller
 {
@@ -13,6 +14,14 @@ class JadwalPeriksaController extends Controller
     public function index()
     {
         //
+        try {
+            $data = JadwalPeriksa::all();
+        } catch(\Exception $e) {
+            Log::error(['error' => $e->getMessage()]);
+        }
+
+        
+        return view('dokter.jadwal', ['data' => $data]);
     }
 
     /**
@@ -50,9 +59,32 @@ class JadwalPeriksaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JadwalPeriksa $jadwalPeriksa)
+    public function update($id)
     {
-        //
+
+        try {
+            $jadwalPeriksa = JadwalPeriksa::findOrFail($id); 
+
+            if (!$jadwalPeriksa->status) { 
+                JadwalPeriksa::where('id_dokter', $jadwalPeriksa->id_dokter)->update(['status' => false]); 
+
+                $jadwalPeriksa->status = true; 
+
+            } else {
+                $jadwalPeriksa->status = false; 
+            }
+
+            $jadwalPeriksa->save(); 
+    
+
+        } catch (\Exception $e) {
+            Log::error(['error' => $e->getMessage()]);
+        }
+
+        return redirect()->back()->with([
+            'status' => 'success', 
+            'message' => 'Status Updated'
+        ]); 
     }
 
     /**

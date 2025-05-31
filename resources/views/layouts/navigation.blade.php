@@ -10,37 +10,22 @@
                     </x-nav-link>
                 </div>
 
-                <div x-data="{ open: false }" class="relative sm:flex"> 
-                    <!-- Dropdown Trigger -->
-                    <button @click="open = !open" class="hidden sm:flex items-center py-2 text-sm font-medium hover:text-gray-700 text-gray-500 bg-white rounded-lg focus:outline-none focus:ring-0 focus:text-gray-700">
-                        {{ __('Master Data') }}
-                        <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                
-                    <!-- Dropdown Menu -->
-                    <div 
-                        x-show="open" 
-                        @click.outside="open = false" 
-                        x-transition 
-                        x-cloak
-                        class="absolute right-0 z-20 top-12 w-48 py-2 mt-2 bg-white border rounded-lg shadow-md flex flex-col gap-2 px-2"
-                    >
-                        <x-nav-link :href="route('pasien.index')" :active="request()->routeIs('pasien.index')" class="block py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            {{ __('Pasien') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('dokter.index')" :active="request()->routeIs('dokter.index')" class="block py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            {{ __('Dokter') }}
+                @php
+                    $user = Auth::user();
+                @endphp
+
+                @if($user->role == 'dokter')
+                    <div class="hidden sm:flex">
+                        <x-nav-link :href="route('obat.index')" :active="request()->routeIs('obat.index')">
+                            {{ __('Obat') }}
                         </x-nav-link>
                     </div>
-                </div>
-
-                <div class="hidden sm:flex">
-                    <x-nav-link :href="route('periksa.index')" :active="request()->routeIs('periksa.index')">
-                        {{ __('Periksa') }}
-                    </x-nav-link>
-                </div>
+                    <div class="hidden sm:flex">
+                        <x-nav-link :href="route('jadwal-periksa.index')" :active="request()->routeIs('jadwal-periksa.index')">
+                            {{ __('Jadwal Periksa') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 
             </div>
 
