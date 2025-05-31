@@ -82,43 +82,14 @@
             </x-responsive-nav-link>
         </div>
 
-        <div x-data="{ open: false }" class="relative sm:ms-10 sm:flex">
-            <!-- Dropdown Trigger -->
-            <button @click="open = !open" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-lg focus:outline-none focus:ring-0">
-                {{ __('Master Data') }}
-                <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                </svg>
-            </button>
-        
-            <!-- Dropdown Menu -->
-            <div 
-                x-show="open" 
-                @click.outside="open = false" 
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 scale-95"
-                x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100 scale-100"
-                x-transition:leave-end="opacity-0 scale-95"
-                x-cloak
-                class="absolute left-4 z-20 top-8 w-48 py-2 mt-2 bg-white border rounded-lg shadow-md flex-col gap-2 px-2"
-                :class="open ? 'flex' : 'hidden'"
-            >
-                <x-responsive-nav-link :href="route('pasien.index')" :active="request()->routeIs('pasien.index')" class="block py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    {{ __('Pasien') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('dokter.index')" :active="request()->routeIs('dokter.index')" class="block py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    {{ __('Dokter') }}
-                </x-responsive-nav-link>
-            </div>
-        </div>
-
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('periksa.index')" :active="request()->routeIs('periksa.index')">
-                {{ __('Periksa') }}
+        @if($user->role == 'dokter')
+            <x-responsive-nav-link :href="route('obat.index')" :active="request()->routeIs('obat.index')">
+                {{ __('Obat') }}
             </x-responsive-nav-link>
-        </div>
+            <x-responsive-nav-link :href="route('jadwal-periksa.index')" :active="request()->routeIs('jadwal-periksa.index')">
+                {{ __('Jadwal Periksa') }}
+            </x-responsive-nav-link>
+        @endif
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
