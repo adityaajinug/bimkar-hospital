@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JadwalPeriksa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class JadwalPeriksaController extends Controller
@@ -37,8 +38,50 @@ class JadwalPeriksaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $status = null;
+        $message = null;
+
+        try {
+            $request->validate([
+                'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+                'jam_mulai' => 'required|date_format:H:i',
+                'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            ]);
+
+            $exists = JadwalPeriksa::where('id_dokter', Auth::user()->id)
+                ->where('hari', $request->hari)
+                ->where('jam_mulai', $request->jam_mulai)
+                ->where('jam_selesai', $request->jam_selesai)
+                ->exists();
+
+            if ($exists) {
+                $status = 'error';
+                $message = 'Jadwal tersebut sudah terdaftar.';
+            } else {
+                JadwalPeriksa::create([
+                    'id_dokter' => Auth::user()->id,
+                    'hari' => $request->hari,
+                    'jam_mulai' => $request->jam_mulai,
+                    'jam_selesai' => $request->jam_selesai,
+                    'status' => false,
+                ]);
+
+                $status = 'success';
+                $message = 'Jadwal berhasil ditambahkan.';
+            }
+
+        } catch (\Exception $e) {
+            Log::error('error: ' . $e->getMessage());
+            $status = 'error';
+            $message = 'Terjadi kesalahan saat menyimpan jadwal.';
+        }
+
+        return redirect()->back()->with([
+            'status' => $status,
+            'message' => $message,
+        ]);
     }
+
 
     /**
      * Display the specified resource.

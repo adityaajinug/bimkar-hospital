@@ -22,7 +22,7 @@
                         </div>
                     @endif
                     <div class="flex justify-end">
-                        <a href="{{ route('dokter.create') }}" class="inline-block py-2 px-4 text-white bg-blue-700 rounded-lg hover:bg-blue-800 text-base transform transition duration-150 active:scale-90 focus:scale-95 mb-5">Tambah</a>
+                        <button type="button" onclick="my_modal_3.showModal()" class="inline-block py-2 px-4 text-white bg-blue-700 rounded-lg hover:bg-blue-800 text-base transform transition duration-150 active:scale-90 focus:scale-95 mb-5">Tambah</button>
                     </div>
                     <div class="overflow-hidden rounded-md">
                         <table class="table-auto w-full rounded-md">
@@ -73,7 +73,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center text-gray-500 py-4">Tidak ada data dokter.</td>
+                                        <td colspan="5" class="text-center text-gray-500 py-4">Tidak ada data Jadwal.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -83,4 +83,51 @@
             </div>
         </div>
     </div>
+
+    <dialog id="my_modal_3" class="modal">
+        <div class="modal-box">
+            <form id="formJadwal" action="{{ route('jadwal-periksa.store') }}" method="POST">
+            @csrf
+
+            <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onclick="my_modal_3.close()">✕</button>
+
+            <h3 class="font-bold text-lg mb-4">Tambah Jadwal</h3>
+
+            <div class="mb-4">
+                <label class="label" for="hariSelect">
+                <span class="label-text">Hari</span>
+                </label>
+                <select class="select select-bordered w-full" name="hari" id="hariSelect" required>
+                <option value="">Pilih Hari</option>
+                <option value="Senin">Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+                <option value="Kamis">Kamis</option>
+                <option value="Jumat">Jumat</option>
+                <option value="Sabtu">Sabtu</option>
+                <option value="Minggu">Minggu</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="label" for="jamMulai">
+                <span class="label-text">Jam Mulai</span>
+                </label>
+                <input type="time" class="input input-bordered w-full" id="jamMulai" name="jam_mulai" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="label" for="jamSelesai">
+                <span class="label-text">Jam Selesai</span>
+                </label>
+                <input type="time" class="input input-bordered w-full" id="jamSelesai" name="jam_selesai" required>
+            </div>
+
+            <div class="modal-action">
+                <button type="submit" class="py-2 px-4 text-white bg-blue-700 rounded-lg hover:bg-blue-800">Simpan</button>
+            </div>
+            </form>
+        </div>
+    </dialog>
+
 </x-app-layout>
