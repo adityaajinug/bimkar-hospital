@@ -16,35 +16,45 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
+        @if($user->role == 'dokter')
+        <div>
+            <x-input-label for="name" :value="__('No RM')" />
+            <x-text-input id="name" name="no_rm" type="text" class="mt-1 block w-full" :value="old('No RM', $user->no_rm)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('no_rm')" />
+        </div>
+        @endif
+        <div>
+            <x-input-label for="name" :value="__('Nama')" />
+            <x-text-input id="name" name="nama" type="text" class="mt-1 block w-full" :value="old('name', $user->nama)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('nama')" />
+        </div>
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-input-label for="no_ktp" :value="__('No KTP')" />
+            <x-text-input id="no_ktp" name="no_ktp" type="text" class="mt-1 block w-full" :value="old('no_ktp', $user->no_ktp)" required autofocus autocomplete="no_ktp" />
+            <x-input-error class="mt-2" :messages="$errors->get('no_ktp')" />
+        </div>
+        <div>
+            <x-input-label for="no_hp" :value="__('No HP')" />
+            <x-text-input id="no_hp" name="no_hp" type="number" class="mt-1 block w-full" :value="old('no_hp', $user->no_hp)" required autofocus autocomplete="no_hp" />
+            <x-input-error class="mt-2" :messages="$errors->get('no_hp')" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        </div>
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
-                        {{ __('Your email address is unverified.') }}
-
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
-            @endif
+         <div>
+            <x-input-label for="poli" :value="__('Poli')" />
+            <x-text-input id="poli" name="poli" type="text" class="mt-1 block w-full" :value="old('poli', $user->poli)" required autofocus autocomplete="poli" />
+            <x-input-error class="mt-2" :messages="$errors->get('poli')" />
+        </div>
+         <div>
+            <x-input-label for="alamat" :value="__('Alamat')" />
+            <x-text-input id="alamat" name="alamat" type="text" class="mt-1 block w-full" :value="old('alamat', $user->alamat)" required autofocus autocomplete="alamat" />
+            <x-input-error class="mt-2" :messages="$errors->get('alamat')" />
         </div>
 
         <div class="flex items-center gap-4">
@@ -56,7 +66,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
+                    class="text-sm text-green-600 font-bold"
                 >{{ __('Saved.') }}</p>
             @endif
         </div>
