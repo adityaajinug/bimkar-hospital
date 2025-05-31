@@ -16,7 +16,7 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
-        @if($user->role == 'dokter')
+        @if($user->role == 'pasien')
         <div>
             <x-input-label for="name" :value="__('No RM')" />
             <x-text-input id="name" name="no_rm" type="text" class="mt-1 block w-full" :value="old('No RM', $user->no_rm)" required autofocus autocomplete="name" />
