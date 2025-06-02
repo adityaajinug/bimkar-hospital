@@ -22,6 +22,11 @@
             <x-text-input id="name" name="no_rm" type="text" class="mt-1 block w-full" :value="old('No RM', $user->no_rm)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('no_rm')" />
         </div>
+        <div>
+            <x-input-label for="poli" :value="__('Poli')" />
+            <x-text-input id="poli" name="poli" type="text" class="mt-1 block w-full" :value="old('poli', $user->poli)" required autofocus autocomplete="poli" />
+            <x-input-error class="mt-2" :messages="$errors->get('poli')" />
+        </div>
         @endif
         <div>
             <x-input-label for="name" :value="__('Nama')" />
@@ -44,12 +49,6 @@
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
-        </div>
-
-         <div>
-            <x-input-label for="poli" :value="__('Poli')" />
-            <x-text-input id="poli" name="poli" type="text" class="mt-1 block w-full" :value="old('poli', $user->poli)" required autofocus autocomplete="poli" />
-            <x-input-error class="mt-2" :messages="$errors->get('poli')" />
         </div>
          <div>
             <x-input-label for="alamat" :value="__('Alamat')" />
