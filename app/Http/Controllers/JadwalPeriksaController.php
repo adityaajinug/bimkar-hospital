@@ -16,7 +16,7 @@ class JadwalPeriksaController extends Controller
     {
         //
         try {
-            $data = JadwalPeriksa::all();
+            $data = JadwalPeriksa::with('dokter')->where('id_dokter', Auth::user()->id)->get();
         } catch(\Exception $e) {
             Log::error(['error' => $e->getMessage()]);
         }
