@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JadwalPeriksa;
 use App\Models\JanjiPeriksa;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class JanjiPeriksaController extends Controller
 {
@@ -12,7 +16,21 @@ class JanjiPeriksaController extends Controller
      */
     public function index()
     {
-        //
+        $no_rm = Auth::user()->no_rm;
+        $janjiPeriksas = JanjiPeriksa::where('id_pasien', Auth::user()->id)->get();
+        $dokters = User::with([
+            'jadwalPeriksas' => function ($query) {
+                $query->where('status', true);
+            },
+        ])
+            ->where('role', 'dokter')
+            ->get();
+
+        return view('pasien.janji-periksa')->with([
+            'no_rm' => $no_rm,
+            'dokters' => $dokters,
+            'data' => $janjiPeriksas,
+        ]);
     }
 
     /**
@@ -28,7 +46,46 @@ class JanjiPeriksaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'id_dokter' => 'required|exists:users,id',
+                'keluhan' => 'required',
+            ]);
+
+            $jadwalPeriksa = JadwalPeriksa::where('id_dokter', $validated['id_dokter'])->where('status', true)->first();
+
+            if (!$jadwalPeriksa) {
+                return redirect()
+                    ->back()
+                    ->withErrors([
+                        'id_dokter' => 'Jadwal periksa untuk dokter ini tidak tersedia.',
+                    ])
+                    ->withInput();
+            }
+
+            $jumlahJanji = JanjiPeriksa::where('id_jadwal_periksa', $jadwalPeriksa->id)->count();
+            $noAntrian = $jumlahJanji + 1;
+
+            JanjiPeriksa::create([
+                'id_pasien' => Auth::id(),
+                'id_jadwal_periksa' => $jadwalPeriksa->id,
+                'keluhan' => $validated['keluhan'],
+                'no_antrian' => $noAntrian,
+            ]);
+
+            return redirect()->route('janji-periksa.index')->with([
+                'status' => 'success',
+                'message' => 'Janji Periksa Telah dibuat'
+            ]);
+        }  catch (\Exception $e) {
+           Log::error('error: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'error' => 'Terjadi kesalahan saat membuat janji periksa. Silakan coba lagi.',
+                ])
+                ->withInput();
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JadwalPeriksaController;
+use App\Http\Controllers\JanjiPeriksaController;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PeriksaController;
@@ -22,8 +23,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('home.index');
-
+})
+    ->middleware(['auth'])
+    ->name('home.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,9 +38,9 @@ Route::middleware('auth', 'role:dokter')->group(function () {
         ->as('dokter.')
         ->prefix('dokter')
         ->group(function () {
-            Route::get('/', function() {
+            Route::get('/', function () {
                 return view('dashboard');
-            })->name('index'); 
+            })->name('index');
         });
     Route::controller(JadwalPeriksaController::class)
         ->as('jadwal-periksa.')
@@ -46,11 +48,11 @@ Route::middleware('auth', 'role:dokter')->group(function () {
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
-            Route::post('/store', 'store')->name('store'); 
-            Route::get('/edit/{id}', 'edit')->name('edit'); 
-            Route::patch('/update/{id}', 'update')->name('update'); 
-            Route::delete('/destroy/{id}', 'destroy')->name('destroy'); 
-        }); 
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::patch('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
 
     Route::controller(ObatController::class)
         ->as('obat.')
@@ -58,11 +60,11 @@ Route::middleware('auth', 'role:dokter')->group(function () {
         ->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
-            Route::post('/store', 'store')->name('store'); 
-            Route::get('/edit/{id}', 'edit')->name('edit'); 
-            Route::put('/update/{id}', 'update')->name('update'); 
-            Route::delete('/destroy/{id}', 'destroy')->name('destroy'); 
-        });    
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
 });
 
 Route::middleware('auth', 'role:pasien')->group(function () {
@@ -70,10 +72,21 @@ Route::middleware('auth', 'role:pasien')->group(function () {
         ->as('pasien.')
         ->prefix('pasien')
         ->group(function () {
-            Route::get('/', function() {
-                 return view('dashboard');
-            })->name('index'); 
+            Route::get('/', function () {
+                return view('dashboard');
+            })->name('index');
+        });
+    Route::controller(JanjiPeriksaController::class)
+        ->as('janji-periksa.')
+        ->prefix('janji-periksa')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

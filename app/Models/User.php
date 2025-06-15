@@ -44,4 +44,9 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+
+    public function jadwalPeriksas()
+    {
+        return $this->hasMany(JadwalPeriksa::class, 'id_dokter');
+    }
 }
