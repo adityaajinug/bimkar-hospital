@@ -34,7 +34,7 @@
                                         <td class="border-b border-gray-300 px-4 py-3 text-gray-700">
                                             {{ $row->jadwalPeriksa->dokter->nama }}</td>
                                         <td class="border-b border-gray-300 px-4 py-3 text-gray-700">
-                                            {{ $row->jadwalPeriksa->dokter->hari }}</td>
+                                            {{ $row->jadwalPeriksa->hari }}</td>
                                         <td class="border-b border-gray-300 px-4 py-3 text-gray-700">
                                             {{ \Carbon\Carbon::parse($row->jadwalPeriksa->jam_mulai)->format('H.i') }}
                                         </td>
