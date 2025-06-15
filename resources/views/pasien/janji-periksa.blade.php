@@ -186,7 +186,7 @@
                                                         </h3>
                                                         <ul
                                                             class="space-y-1 mb-4 list-disc list-inside text-sm text-gray-700">
-                                                            @foreach ($row->periksa->detailPeriksa as $detailPeriksa)
+                                                            @foreach ($row->periksa->detailPeriksas as $detailPeriksa)
                                                                 <li>{{ $detailPeriksa->obat->nama_obat }}
                                                                     {{ $detailPeriksa->obat->kemasan }}</li>
                                                             @endforeach

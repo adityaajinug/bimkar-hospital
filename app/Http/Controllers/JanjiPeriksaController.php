@@ -52,6 +52,23 @@ class JanjiPeriksaController extends Controller
                 'keluhan' => 'required',
             ]);
 
+            $sudahBuatJanji = JanjiPeriksa::where('id_pasien', Auth::id())
+                ->whereHas('jadwalPeriksa', function ($query) use ($validated) {
+                    $query->where('id_dokter', $validated['id_dokter']);
+                })
+                ->with(['jadwalPeriksa.dokter'])
+                ->first();
+
+            if ($sudahBuatJanji) {
+                return redirect()
+                    ->back()
+                    ->with([
+                        'status' => 'error',
+                        'message' => 'Anda Sudah membuat janji dengan dokter ' . $sudahBuatJanji->jadwalPeriksa->dokter->nama
+                    ])
+                    ->withInput();
+            }
+
             $jadwalPeriksa = JadwalPeriksa::where('id_dokter', $validated['id_dokter'])->where('status', true)->first();
 
             if (!$jadwalPeriksa) {
@@ -73,12 +90,14 @@ class JanjiPeriksaController extends Controller
                 'no_antrian' => $noAntrian,
             ]);
 
-            return redirect()->route('janji-periksa.index')->with([
-                'status' => 'success',
-                'message' => 'Janji Periksa Telah dibuat'
-            ]);
-        }  catch (\Exception $e) {
-           Log::error('error: ' . $e->getMessage());
+            return redirect()
+                ->route('janji-periksa.index')
+                ->with([
+                    'status' => 'success',
+                    'message' => 'Janji Periksa telah dibuat.',
+                ]);
+        } catch (\Exception $e) {
+            Log::error('Gagal membuat janji periksa: ' . $e->getMessage());
             return redirect()
                 ->back()
                 ->withErrors([
