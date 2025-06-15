@@ -120,11 +120,10 @@
                                         <td class="border-b border-gray-300 px-4 py-3 text-gray-700">
                                             {{ $row->no_antrian }}</td>
                                         <td class="border-b border-gray-300 px-4 py-3">
-                                            @if ($row->no_antrian)
-                                                <span class="text-white px-2 py-1 bg-green-500 rounded-md">Aktif</span>
+                                            @if ($row->periksa)
+                                                <span class="text-white px-2 py-1 bg-green-500 rounded-md">Sudah Diperiksa</span>
                                             @else
-                                                <span class="text-white px-2 py-1 bg-red-500 rounded-md">Tidak
-                                                    Aktif</span>
+                                                <span class="text-white px-2 py-1 bg-red-500 rounded-md">Belum Diperiksa</span>
                                             @endif
                                         </td>
                                         <td class="border-b border-gray-300 px-4 py-3 text-center">

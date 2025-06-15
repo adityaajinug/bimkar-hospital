@@ -36,6 +36,11 @@
                             {{ __('Janji Periksa') }}
                         </x-nav-link>
                     </div>
+                    <div class="hidden sm:flex">
+                        <x-nav-link :href="route('riwayat-periksa.index')" :active="request()->routeIs('riwayat-periksa.index')">
+                            {{ __('Riwayat Periksa') }}
+                        </x-nav-link>
+                    </div>
                 @endif
                 
             </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PeriksaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RiwayatPeriksaController;
 use App\Models\JadwalPeriksa;
 use Illuminate\Support\Facades\Route;
 
@@ -100,6 +101,12 @@ Route::middleware('auth', 'role:pasien')->group(function () {
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+    Route::controller(RiwayatPeriksaController::class)
+        ->as('riwayat-periksa.')
+        ->prefix('riwayat-periksa')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
         });
 });
 
