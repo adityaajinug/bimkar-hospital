@@ -25,6 +25,11 @@
                             {{ __('Jadwal Periksa') }}
                         </x-nav-link>
                     </div>
+                    <div class="hidden sm:flex">
+                        <x-nav-link :href="route('memeriksa.index')" :active="request()->routeIs('memeriksa.index')">
+                            {{ __('Memeriksa') }}
+                        </x-nav-link>
+                    </div>
                 @elseif($user->role == 'pasien')
                     <div class="hidden sm:flex">
                         <x-nav-link :href="route('janji-periksa.index')" :active="request()->routeIs('janji-periksa.index')">
