@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900">
-                        {{ __('Periksa Pasien') }}
+                        {{ $action == 'update' ? 'Edit Periksa' : 'Periksa Pasien' }}
                     </h2>
                     <p class="mt-1 text-sm text-gray-600">
                         {{ __('Silakan isi form di bawah ini untuk mencatat hasil pemeriksaan pasien dan memilih obat yang diberikan.') }}

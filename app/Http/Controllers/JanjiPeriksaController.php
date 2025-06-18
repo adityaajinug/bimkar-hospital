@@ -52,33 +52,33 @@ class JanjiPeriksaController extends Controller
                 'keluhan' => 'required',
             ]);
 
-            $sudahBuatJanji = JanjiPeriksa::where('id_pasien', Auth::id())
-                ->whereHas('jadwalPeriksa', function ($query) use ($validated) {
-                    $query->where('id_dokter', $validated['id_dokter']);
-                })
-                ->with(['jadwalPeriksa.dokter'])
-                ->first();
+            // $sudahBuatJanji = JanjiPeriksa::where('id_pasien', Auth::id())
+            //     ->whereHas('jadwalPeriksa', function ($query) use ($validated) {
+            //         $query->where('id_dokter', $validated['id_dokter']);
+            //     })
+            //     ->with(['jadwalPeriksa.dokter'])
+            //     ->first();
 
-            if ($sudahBuatJanji) {
-                return redirect()
-                    ->back()
-                    ->with([
-                        'status' => 'error',
-                        'message' => 'Anda Sudah membuat janji dengan dokter ' . $sudahBuatJanji->jadwalPeriksa->dokter->nama
-                    ])
-                    ->withInput();
-            }
+            // if ($sudahBuatJanji) {
+            //     return redirect()
+            //         ->back()
+            //         ->with([
+            //             'status' => 'error',
+            //             'message' => 'Anda Sudah membuat janji dengan dokter ' . $sudahBuatJanji->jadwalPeriksa->dokter->nama
+            //         ])
+            //         ->withInput();
+            // }
 
             $jadwalPeriksa = JadwalPeriksa::where('id_dokter', $validated['id_dokter'])->where('status', true)->first();
 
-            if (!$jadwalPeriksa) {
-                return redirect()
-                    ->back()
-                    ->withErrors([
-                        'id_dokter' => 'Jadwal periksa untuk dokter ini tidak tersedia.',
-                    ])
-                    ->withInput();
-            }
+            // if (!$jadwalPeriksa) {
+            //     return redirect()
+            //         ->back()
+            //         ->withErrors([
+            //             'id_dokter' => 'Jadwal periksa untuk dokter ini tidak tersedia.',
+            //         ])
+            //         ->withInput();
+            // }
 
             $jumlahJanji = JanjiPeriksa::where('id_jadwal_periksa', $jadwalPeriksa->id)->count();
             $noAntrian = $jumlahJanji + 1;
