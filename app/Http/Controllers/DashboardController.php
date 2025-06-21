@@ -6,17 +6,17 @@ use App\Models\JanjiPeriksa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RiwayatPeriksaController extends Controller
+class DashboardController extends Controller
 {
-    public function index()
+    public function pasien()
     {
         $no_rm = Auth::user()->no_rm;
         $janjiPeriksas = JanjiPeriksa::with(['jadwalPeriksa.dokter', 'periksa.detailPeriksas.obat'])
             ->where('id_pasien', Auth::user()->id)
-            ->whereHas('periksa')
+            ->whereDoesntHave('periksa')
             ->get();
 
-        return view('pasien.riwayat-periksa')->with([
+        return view('pasien.dashboard')->with([
             'no_rm' => $no_rm,
             'data' => $janjiPeriksas,
         ]);

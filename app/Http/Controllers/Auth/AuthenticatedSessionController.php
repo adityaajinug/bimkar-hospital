@@ -35,10 +35,10 @@ class AuthenticatedSessionController extends Controller
             if ($user->role === 'dokter') {
                 return redirect()->intended(route('dokter.index'));
             } elseif ($user->role === 'pasien') {
+                dd('test');
                 return redirect()->intended(route('pasien.index'));
             }
             
-            dd('tst');
         } catch (ValidationException $e) {
             Log::error(['error' => $e->getMessage()]);
             return back()->with([

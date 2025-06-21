@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\JadwalPeriksaController;
 use App\Http\Controllers\JanjiPeriksaController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatPeriksaController;
 use App\Models\JadwalPeriksa;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +25,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', function () {
-    return view('dashboard');
-})
-    ->middleware(['auth'])
-    ->name('home.index');
+// Route::get('/home', function () {
+//     return view('dashboard');
+// })
+//     ->middleware(['auth'])
+//     ->name('home.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -87,9 +89,7 @@ Route::middleware('auth', 'role:pasien')->group(function () {
         ->as('pasien.')
         ->prefix('pasien')
         ->group(function () {
-            Route::get('/', function () {
-                return view('dashboard');
-            })->name('index');
+            Route::get('/dashboard', [DashboardController::class, 'pasien'])->name('index');
         });
     Route::controller(JanjiPeriksaController::class)
         ->as('janji-periksa.')
